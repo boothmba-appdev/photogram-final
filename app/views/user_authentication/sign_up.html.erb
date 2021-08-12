@@ -1,52 +1,35 @@
-<h1>Sign up</h1>
+<h1>Sign up 注册</h1>
 
 <form action="/insert_user" method="post">
 
   <div>
-    <label for="email_box">Email</label>
-    <input id="email_box" name="query_email" placeholder="Choose a email..." type="text">
+    <label for="username_box">Username 用户名</label>
+    <input type="text" id="username_box" name="query_username" placeholder="Charlie 张三...">
   </div>
-                 
   <div>
-    <label for="comments_count_box">Comments count</label>
-      
-    <input type="text" id="comments_count_box" name="query_comments_count">
+    <label for="email_box">Email 邮箱</label>
+    <input id="email_box" name="query_email" placeholder="example@gmail.com" type="text">
   </div>
-         
   <div>
-    <label for="likes_count_box">Likes count</label>
-      
-    <input type="text" id="likes_count_box" name="query_likes_count">
-  </div>
-         
-  <div>
-    <label for="private_box">Private</label>
+    <label for="private_box">Private 隐私</label>
     <input id="private_box" name="query_private" type="checkbox">
   </div>
-         
   <div>
-    <label for="username_box">Username</label>
-      
-    <input type="text" id="username_box" name="query_username">
+    <label for="password_box">Password 密码</label>
+    <input id="password_box" name="query_password" placeholder="Password 密码..." type="password">
   </div>
-    
   <div>
-    <label for="password_box">Password</label>
-    <input id="password_box" name="query_password" placeholder="Choose a password..." type="password">
-  </div>
-
-  <div>
-    <label for="password_confirmation_box">Password Confirmation</label>
-    <input id="password_confirmation_box" name="query_password_confirmation" placeholder="Confirm your password..." type="password">
+    <label for="password_confirmation_box">Password Confirmation 再次确认密码</label>
+    <input id="password_confirmation_box" name="query_password_confirmation" placeholder="Confirmation 确认..." type="password">
   </div>
 
   <button>
-    Sign up
+    Sign up 注册
   </button>
 </form>
 
 <hr>
 
 <p>
-  Or, <a href="/user_sign_in">Sign in</a> instead.
+  Or 或者, <a href="/user_sign_in">Sign in 登陆</a>.
 </p>
