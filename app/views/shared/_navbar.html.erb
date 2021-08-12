@@ -24,32 +24,32 @@
           </div>
         </li>
       </ul>
-            <ul>
+            <ul class="text-light">
           <% if @current_user %>
           <li>
-            <a class="text-secondary" href="/user_sign_out">
+            <a class="text-light" href="/user_sign_out">
               Sign out 退出
             </a>
           </li>
           <li>
-            <a class="text-secondary" href="/edit_user_profile">
+            <a class="text-light" href="/edit_user_profile">
               <%= @current_user.username %>
             </a>
           </li>
           <% else %>
           <li>
-            <a class="text-secondary" href="/user_sign_in">
+            <a class="text-light" href="/user_sign_in">
               Sign in 登陆
             </a>
           </li>
           <li>
-            <a class="text-secondary" href="/user_sign_up">
+            <a class="text-light" href="/user_sign_up">
               Sign up 注册
             </a>
           </li>
           <% end %>
         <li>
-          <a class="text-secondary" href="/">
+          <a class="text-light" href="/">
             Home 主页
           </a>
         </li>
