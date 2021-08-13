@@ -1,19 +1,14 @@
 class PhotosController < ApplicationController
   def index
     matching_photos = Photo.all
-
     @list_of_photos = matching_photos.order({ :created_at => :desc })
-
     render({ :template => "photos/index.html.erb" })
   end
 
   def show
     the_id = params.fetch("path_id")
-
     matching_photos = Photo.where({ :id => the_id })
-
     @the_photo = matching_photos.at(0)
-
     render({ :template => "photos/show.html.erb" })
   end
 
