@@ -33,11 +33,15 @@
 
   <div class="container">
     <%= render "shared/flashes" %>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <% if notice.present? %>
+    <% elsif alert.present? %>
+    <% else %>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    <% end %>
 
     <%= yield %>
     <hr>

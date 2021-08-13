@@ -1,150 +1,73 @@
-<div>
-  <div>
-    <h1>
-      List of all photos
-    </h1>
-  </div>
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Photogram 小蓝书</title>
+    
+    <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
+    <meta charset="utf-8">
+
+    <!-- Make it responsive to small screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" media="all" href="/assets/application-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" />
+  </head>
+
+  <body>
+    <h1>List of Photos 照片列表</h1>
+
+<% if @current_user %>
+  <form action="/insert_photo" method="post" enctype="multipart/form-data">
+    <label for="browser_input">Image 照片</label>
+    <input id="browser_input" type="file" name="query_image" placeholder="Upload a photo 上传照片...">
+
+    <label for="browser_caption">Caption 标题</label>
+    <textarea id="browser_caption" name="query_caption" placeholder="Enter a caption 输入标题..."></textarea>
+
+    <button>Add photo 添加照片</button>
+  </form>
+<% end %>
 
 <hr>
 
-<div>
-  <div>
-    <h2>
-      Add a new photo
-    </h2>
+<table border="2">
+  <tr>
+    <th>Image 照片</th>
+    <th>Caption 标题</th>
+    <th>Owner 发布者</th>
+    <th>Posted 发布时间</th>
+    <th>Likes 点赞数</th>
+    <th></th>
+  </tr>
 
-    <form action="/insert_photo" method="post">
-      <div>
-        <label for="caption_box">
-          Caption
-        </label>
-
-        <textarea id="caption_box" name="query_caption" rows="3"></textarea>
-      </div>
-
-      <div>
-        <label for="comments_count_box">
-          Comments count
-        </label>
-
-        <input type="text" id="comments_count_box" name="query_comments_count">
-      </div>
-
-      <div>
-        <label for="image_box">
-          Image
-        </label>
-
-        <input type="text" id="image_box" name="query_image">
-      </div>
-
-      <div>
-        <label for="likes_count_box">
-          Likes count
-        </label>
-
-        <input type="text" id="likes_count_box" name="query_likes_count">
-      </div>
-
-      <div>
-        <label for="owner_id_box">
-          Owner
-        </label>
-
-        <input type="text" id="owner_id_box" name="query_owner_id">
-      </div>
-
-      <button>
-        Create photo
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>
-<div>
-  <div>
-    <table>
-      <tr>
-        <th>
-          ID
-        </th>
-
-        <th>
-          Caption
-        </th>
-
-        <th>
-          Comments count
-        </th>
-
-        <th>
-          Image
-        </th>
-
-        <th>
-          Likes count
-        </th>
-
-        <th>
-          Owner
-        </th>
-
-        <th>
-          Created at
-        </th>
-
-        <th>
-          Updated at
-        </th>
-
-        <th>
-        </th>
-      </tr>
-
-      <% @list_of_photos.each do |a_photo| %>
-      <tr>
-        <td>
-          <%= a_photo.id %>
-        </td>
-
-        <td>
-          <%= a_photo.caption %>
-        </td>
-
-        <td>
-          <%= a_photo.comments_count %>
-        </td>
-
-        <td>
-          <%= a_photo.image %>
-        </td>
-
-        <td>
-          <%= a_photo.likes_count %>
-        </td>
-
-        <td>
-          <%= a_photo.owner_id %>
-        </td>
-
-        <td>
-          <%= time_ago_in_words(a_photo.created_at) %> ago
-        </td>
-        <td>
-          <%= time_ago_in_words(a_photo.updated_at) %> ago
-        </td>
-
-        <td>
-          <a href="/photos/<%= a_photo.id %>">
-            Show details
-          </a>
-        </td>
-      </tr>
-      <% end %>
-    </table>
-  </div>
-</div>
-
-<hr>
+<% @list_of_photos.each do |a_photo| %>
+    <tr>
+      <td>
+        <img src="<%=a_photo.image%>">
+      </td>
+    
+      <td>
+        <%=a_photo.caption%>
+      </td>
+    
+      <td>
+        <%=a_photo.owner.username%>
+      </td>
+    
+      <td>
+        <%= time_ago_in_words(a_photo.created_at) %> ago
+      </td>
+    
+      <td>
+        <%= a_photo.likes_count %>
+      </td>
+    
+      <td>
+        <a href="/photos/<%= %>">
+          Show details 查看更多
+        </a>
+      </td>
+    </tr>
+    <% end %>
+</table>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Photogram 小蓝书</title>
+
+    <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
+    <meta charset="utf-8">
+
+    <!-- Make it responsive to small screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" media="all" href="/assets/application-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" />
+  </head>
+
+  <body>
+    <h1>List of Users 用户列表</h1>
+
+<table border="2">
+  <tr>
+    <th>
+      Username 用户名
+    </th>
+
+    <th>
+      Private? 隐私账户？
+    </th>
+
+    <th></th>
+    <th></th>
+  </tr>
+  <% @list_of_users.each do |a_user| %>
+    <tr>
+      <td>
+        <%= a_user.username.upcase %>
+      </td>
+
+      <td>
+        <%= a_user.private ? 'Yes 是' : 'No 否' %>
+      </td>
+
+      <% if @current_user %>
+      <td>
+            <form action="/insert_follow_request" method="post">
+              <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
+              <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
+              <input type="hidden" name="query_status" value="<%= a_user.private %>">
+              <button>
+                Follow 关注
+              </button>
+            </form>
+      </td>
+      <% end %>
+
+      <td>
+        <a href="/users/<%= a_user.username%>">Show details 查看更多</a>
+      </td>
+    </tr>
+    <% end %>
+    </table>
+
+  </body>
+</html>

@@ -38,19 +38,17 @@ class UserAuthenticationController < ApplicationController
 
   def create
     @user = User.new
+    @user.username = params.fetch("query_username")
     @user.email = params.fetch("query_email")
     @user.password = params.fetch("query_password")
     @user.password_confirmation = params.fetch("query_password_confirmation")
-    @user.comments_count = params.fetch("query_comments_count")
-    @user.likes_count = params.fetch("query_likes_count")
     @user.private = params.fetch("query_private", false)
-    @user.username = params.fetch("query_username")
-
+    
     save_status = @user.save
 
     if save_status == true
       session[:user_id] = @user.id
-   
+      #session[:username] = @user.username
       redirect_to("/", { :notice => "User account created successfully."})
     else
       redirect_to("/user_sign_up", { :alert => @user.errors.full_messages.to_sentence })
@@ -63,19 +61,23 @@ class UserAuthenticationController < ApplicationController
 
   def update
     @user = @current_user
+    @user_ = @current_user.dup
+    @user.username = params.fetch("query_username")
     @user.email = params.fetch("query_email")
     @user.password = params.fetch("query_password")
     @user.password_confirmation = params.fetch("query_password_confirmation")
-    @user.comments_count = params.fetch("query_comments_count")
-    @user.likes_count = params.fetch("query_likes_count")
+    #@user.comments_count = params.fetch("query_comments_count")
+    #@user.likes_count = params.fetch("query_likes_count")
     @user.private = params.fetch("query_private", false)
-    @user.username = params.fetch("query_username")
     
     if @user.valid?
       @user.save
-
-      redirect_to("/", { :notice => "User account updated successfully."})
+      redirect_to("/", {:notice => "User account updated successfully!"})
     else
+      @user.username = @user_.username
+      @user.email = @user_.email
+      @user.password = @user_.password
+      @user.private = @user_.private
       render({ :template => "user_authentication/edit_profile_with_errors.html.erb" , :alert => @user.errors.full_messages.to_sentence })
     end
   end
