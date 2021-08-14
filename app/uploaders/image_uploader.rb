@@ -5,7 +5,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   include Cloudinary::CarrierWave
 
   # Choose what kind of storage to use for this uploader:
-  #storage :file
+  # storage :file
   # storage :fog
 
   # Override the directory where uploaded files will be stored.
@@ -28,6 +28,13 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
+  process :convert => 'png'
+  process :eager => true
+  process :resize_to_fill => [500, 380, :north]
+
+  def public_id
+    return "Photogram/" + Cloudinary::Utils.random_public_id
+  end 
 
   # Create different versions of your uploaded files:
   # version :thumb do
