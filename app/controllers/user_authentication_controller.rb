@@ -15,21 +15,21 @@ class UserAuthenticationController < ApplicationController
       are_they_legit = user.authenticate(the_supplied_password)
     
       if are_they_legit == false
-        redirect_to("/user_sign_in", { :alert => "Incorrect password." })
+        redirect_to("/user_sign_in", { :alert => "Incorrect password! 密码错误!" })
       else
         session[:user_id] = user.id
       
-        redirect_to("/", { :notice => "Signed in successfully." })
+        redirect_to("/", { :notice => "Signed in successfully! 登陆成功!" })
       end
     else
-      redirect_to("/user_sign_in", { :alert => "No user with that email address." })
+      redirect_to("/user_sign_in", { :alert => "No user with that email address! 该邮箱没有注册!" })
     end
   end
 
   def destroy_cookies
     reset_session
 
-    redirect_to("/", { :notice => "Signed out successfully." })
+    redirect_to("/", { :notice => "Signed out successfully! 退出成功!" })
   end
 
   def sign_up_form
@@ -49,7 +49,7 @@ class UserAuthenticationController < ApplicationController
     if save_status == true
       session[:user_id] = @user.id
       #session[:username] = @user.username
-      redirect_to("/", { :notice => "User account created successfully."})
+      redirect_to("/", { :notice => "User account created successfully! 用户账户注册成功!"})
     else
       redirect_to("/user_sign_up", { :alert => @user.errors.full_messages.to_sentence })
     end
@@ -72,7 +72,7 @@ class UserAuthenticationController < ApplicationController
     
     if @user.valid?
       @user.save
-      redirect_to("/", {:notice => "User account updated successfully!"})
+      redirect_to("/", {:notice => "User account updated successfully! 用户信息成功更新!"})
     else
       @user.username = @user_.username
       @user.email = @user_.email
@@ -82,11 +82,24 @@ class UserAuthenticationController < ApplicationController
     end
   end
 
+  def update2
+    @user2 = @current_user
+    @user2.username = params.fetch("query_username")
+    @user2.private = params.fetch("query_private", false)
+    
+    if @user2.valid?
+      @user2.save
+      redirect_to("/", {:notice => "User account updated successfully! 用户信息成功更新!"})
+    else
+      render({ :template => "user_authentication/edit_profile_with_errors.html.erb" , :alert => @user.errors.full_messages.to_sentence })
+    end
+  end
+
   def destroy
     @current_user.destroy
     reset_session
     
-    redirect_to("/", { :notice => "User account cancelled" })
+    redirect_to("/", { :notice => "User account cancelled! 用户账户已注销!" })
   end
  
 end

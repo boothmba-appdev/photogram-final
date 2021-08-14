@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Photogram 小蓝书</title>
+    
+    <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
+    <meta charset="utf-8">
+
+    <!-- Make it responsive to small screens -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" media="all" href="/assets/application-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" />
+  </head>
+
+  <body>
+    <h1><%= @the_user.username %></h1>
+
+<dl>
+  <dt>Private 隐私账户</dt>
+  <dd><%= @the_user.private ? 'Yes 是' : 'No 否' %></dd>
+
+  <dt>Followers 粉丝数</dt>
+  <dd>
+    <%= @the_user.received_follow_requests_count %>
+
+    <div>
+      <form action="/insert_follow_request" method="post">
+        <input type="hidden" name="query_recipient_id" value="<%=@the_user.id%>">
+        <input type="hidden" name="query_sender_id" value="<%=@current_user.id%>">
+        <button>
+          Follow
+        </button>
+      </form>
+    </div>
+
+  </dd>
+
+  <dt>Following 关注数</dt>
+  <dd><%= @the_user.sent_follow_requests_count %></dd>
+</dl>
+
+<nav>
+  <ul>
+    <li>
+      <a href="/users/<%= @the_user.username %>">Profile 用户信息</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.username %>/liked_photos">Liked photos 点赞照片</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.username %>/feed">Feed 关注推送</a>
+    </li>
+    <li>
+      <a href="/users/<%= @the_user.username %>/discover">Discover 发现更多</a>
+    </li>
+  </ul>
+</nav>
+
+<h2>Own photos 已发布照片 (<%= @the_user.own_photos_count %>)</h2>
+
+<table border="2">
+  <tr>
+    <th>
+      Image 照片
+    </th>
+
+    <th>
+      Owner 发布者
+    </th>
+
+    <th>
+      Caption 标题
+    </th>
+
+    <th>
+      Posted 发布日期
+    </th>
+
+    <th>
+      Likes 点赞数
+    </th>
+
+    <th></th>
+  </tr>
+  <% @own_photos.each do |a_photo| %>
+    <tr>
+      <td>
+        <img src="<%=a_photo.image%>" class="img-responsive" width="500" height="380">
+      </td>
+    
+      <td>
+        <%=a_photo.owner.username %>
+      </td>
+    
+      <td>
+        <%=a_photo.caption %>
+      </td>
+    
+      <td>
+        <%= a_photo.created_at %>
+      </td>
+    
+      <td>
+        <%= a_photo.likes_count %>
+      </td>
+    
+      <td>
+        <a href="/photos/<%= a_photo.id %>">
+          Show details 查看更多
+        </a>
+      </td>
+    </tr>
+    <% end %>
+
+</table>
+
+</body>
+</html>

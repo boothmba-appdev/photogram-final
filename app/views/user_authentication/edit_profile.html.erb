@@ -27,7 +27,7 @@
 
       <div>
         <label for="private_box">Private 隐私账户</label>
-        <input id="private_box" name="query_private" type="checkbox" value="1" <%= "checked" if @current_user.private %>>
+        <input id="private_box" name="query_private" type="checkbox" <%= "checked" if @current_user.private%>>
       </div>
 
       <div>

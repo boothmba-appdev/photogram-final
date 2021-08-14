@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   # Routes for the User account:
   # READ
   get("/users", { :controller => "users", :action => "index" })
+  get("/users/:path_id", { :controller => "users", :action => "show" })
 
   # SIGN UP FORM
   get("/user_sign_up", { :controller => "user_authentication", :action => "sign_up_form" })        
@@ -71,6 +72,7 @@ Rails.application.routes.draw do
   get("/edit_user_profile", { :controller => "user_authentication", :action => "edit_profile_form" })       
   # UPDATE RECORD
   post("/modify_user", { :controller => "user_authentication", :action => "update" })
+  post("/modify_user/:path_id", { :controller => "user_authentication", :action => "update2" })
   
   # DELETE RECORD
   get("/cancel_user_account", { :controller => "user_authentication", :action => "destroy" })
