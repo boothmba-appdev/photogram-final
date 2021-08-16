@@ -38,24 +38,21 @@ Rails.application.routes.draw do
   get("/delete_follow_request/:path_id", { :controller => "follow_requests", :action => "destroy" })
 
   #------------------------------
-
+  
   # Routes for the Comment resource:
-
   # CREATE
   post("/insert_comment", { :controller => "comments", :action => "create" })
           
   # READ
-  get("/comments", { :controller => "comments", :action => "index" })
-  
+  #get("/comments", { :controller => "comments", :action => "index" })
   get("/comments/:path_id", { :controller => "comments", :action => "show" })
   
   # UPDATE
-  
   post("/modify_comment/:path_id", { :controller => "comments", :action => "update" })
   
   # DELETE
   get("/delete_comment/:path_id", { :controller => "comments", :action => "destroy" })
-
+  
   #------------------------------
 
   # Routes for the User account:

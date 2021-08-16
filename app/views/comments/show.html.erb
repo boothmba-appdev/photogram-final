@@ -1,54 +1,47 @@
 <div>
   <div>
     <h1>
-      Comment #<%= @the_comment.id %> details
+      Comment details 评论详细
     </h1>
 
     <div>
       <div>
-        <a href="/comments">
-          Go back
+        <a href="/photos/<%= @the_comment.photo_id %>">
+          Go back 返回
         </a>
       </div>
 
       <div>
         <a href="/delete_comment/<%= @the_comment.id %>">
-          Delete comment
+          Delete comment 删除评论
         </a>
       </div>
     </div>
 
     <dl>
       <dt>
-        Author
+        Author 评论者
       </dt>
       <dd>
-        <%= @the_comment.author_id %>
+        <%= @the_comment.commenter.username %>
       </dd>
 
       <dt>
-        Body
+        Comment 评论
       </dt>
       <dd>
         <%= @the_comment.body %>
       </dd>
 
       <dt>
-        Photo
-      </dt>
-      <dd>
-        <%= @the_comment.photo_id %>
-      </dd>
-
-      <dt>
-        Created at
+        Created at 发布时间
       </dt>
       <dd>
         <%= time_ago_in_words(@the_comment.created_at) %> ago
       </dd>
 
       <dt>
-        Updated at
+        Updated at 更新时间
       </dt>
       <dd>
         <%= time_ago_in_words(@the_comment.updated_at) %> ago
@@ -59,43 +52,22 @@
 
 <hr>
 
-
 <div>
   <div>
-    <h2>
-      Edit comment
-    </h2>
+    <h3>
+      Edit comment 更改评论
+    </h3>
 
     <form action="/modify_comment/<%= @the_comment.id %>"  method="post" >
-      <div>
-        <label for="author_id_box">
-          Author
-        </label>
-
-        <input type="text" id="author_id_box" name="query_author_id" value="<%= @the_comment.author_id %>">
-      </div>
-
-      <div>
-        <label for="body_box">
-          Body
-        </label>
-
-        <textarea id="body_box" name="query_body"><%= @the_comment.body %></textarea>
-      </div>
-
-      <div>
-        <label for="photo_id_box">
-          Photo
-        </label>
-
-        <input type="text" id="photo_id_box" name="query_photo_id" value="<%= @the_comment.photo_id %>">
-      </div>
-
+      <input type="hidden" name="query_author_id" value="<%= @the_comment.author_id %>">
+      <input type="hidden" name="query_photo_id" value="<%= @the_comment.photo_id %>">
+      <label for="body_box">
+        Comment 评论
+      </label>
+      <textarea id="body_box" name="query_body"><%= @the_comment.body %></textarea>
       <button>
-        Update comment
+        Update 更新
       </button>
     </form>
   </div>
 </div>
-
-<hr>

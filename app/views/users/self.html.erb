@@ -16,7 +16,7 @@
 
 <dl>
   <dt>Private 隐私账户</dt>
-  <dd><%= @the_user.private ? 'Yes 是' : 'No 否' %></dd>
+  <dd><%= @the_user.private ? 'true' : 'false' %></dd>
 
   <dt>Followers 粉丝数</dt>
   <dd>
@@ -76,7 +76,7 @@
     </th>
 
     <th>
-      Posted 发布日期
+      Posted 发布时间
     </th>
 
     <th>
@@ -100,7 +100,7 @@
       </td>
     
       <td>
-        <%= a_photo.caption %>
+        <%= time_ago_in_words(a_photo.created_at) %> ago
       </td>
     
       <td>
