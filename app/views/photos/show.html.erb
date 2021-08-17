@@ -84,18 +84,27 @@
         Fans 粉丝
       </dt>
       <dd>
-        <%= @the_photo.fans %>
+        <%= @the_photo.fans.map_relation_to_array(:username).join(", ") %>
       </dd>
 
       <dt>
         Add a fan 加粉丝
       </dt>
-      <dd>
-        <form action="/insert_like" method="post">
-          <input type="hidden" value="<>" name="query_photo_id">
-          <button>Like 点赞</button>
-        </form>
-      </dd>
+      <% if @the_photo.fans.where({:id => @current_user.id}).empty? %>
+        <dd>
+          <form action="/insert_like" method="post">
+            <input type="hidden" value="<%= @current_user.id %>" name="query_fan_id">
+            <input type="hidden" value="<%= @the_photo.id %>" name="query_photo_id">
+            <button>Like 点赞</button>
+          </form>
+        </dd>
+      <% else %>
+        <dd>
+          <a href="/delete_like/<%= @current_user.likes.where({:photo_id => @the_photo.id}).first.id %>">
+            Unlike 取消点赞
+          </a>
+        </dd>
+      <% end %>
     </dl>
   </div>
 </div>

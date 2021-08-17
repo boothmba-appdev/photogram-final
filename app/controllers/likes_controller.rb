@@ -1,19 +1,14 @@
 class LikesController < ApplicationController
   def index
     matching_likes = Like.all
-
     @list_of_likes = matching_likes.order({ :created_at => :desc })
-
     render({ :template => "likes/index.html.erb" })
   end
 
   def show
     the_id = params.fetch("path_id")
-
     matching_likes = Like.where({ :id => the_id })
-
     @the_like = matching_likes.at(0)
-
     render({ :template => "likes/show.html.erb" })
   end
 
@@ -24,9 +19,9 @@ class LikesController < ApplicationController
 
     if the_like.valid?
       the_like.save
-      redirect_to("/likes", { :notice => "Like created successfully." })
+      redirect_to("/photos/#{the_like.photo_id}", { :notice => "Like created successfully! 点赞成功!" })
     else
-      redirect_to("/likes", { :notice => "Like failed to create successfully." })
+      redirect_to("/photos/#{the_like.photo_id}", { :notice => "Like failed to create successfully! 点赞失败!" })
     end
   end
 
@@ -47,10 +42,12 @@ class LikesController < ApplicationController
 
   def destroy
     the_id = params.fetch("path_id")
-    the_like = Like.where({ :id => the_id }).at(0)
-
-    the_like.destroy
-
-    redirect_to("/likes", { :notice => "Like deleted successfully."} )
+    if @current_user
+      the_like = Like.where({ :fan_id => @current_user.id }).where({ :id => the_id }).at(0)
+      the_like.destroy
+      redirect_to("/photos/#{the_like.photo_id}", { :notice => "Like deleted successfully! 点赞取消成功!"} )
+    else 
+      redirect_to("/user_sign_in", {:alert => "You have to sign in first. 请先登陆!"})
+    end
   end
 end

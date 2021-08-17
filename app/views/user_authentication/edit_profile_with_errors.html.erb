@@ -41,13 +41,11 @@
       </div>
 
       <div>
-        <label for="comments_count_box">Comments count</label>
-        <input id="comments_count_box" name="query_comments_count" value="<%= @current_user.comments_count %>">
+        <p>Total Comments Count 总评论数: <%= @current_user.comments_count %></p> 
       </div>
-                      
+
       <div>
-        <label for="likes_count_box">Likes count</label>
-        <input id="likes_count_box" name="query_likes_count" value="<%= @current_user.likes_count %>">
+        <p>Total Likes Count 总点赞数: <%= @current_user.likes_count %></p>
       </div>
       
       <button>

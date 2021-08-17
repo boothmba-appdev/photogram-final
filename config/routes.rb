@@ -7,13 +7,11 @@ Rails.application.routes.draw do
   post("/insert_like", { :controller => "likes", :action => "create" })
           
   # READ
-  get("/likes", { :controller => "likes", :action => "index" })
-  
-  get("/likes/:path_id", { :controller => "likes", :action => "show" })
+  #get("/likes", { :controller => "likes", :action => "index" })
+  #get("/likes/:path_id", { :controller => "likes", :action => "show" })
   
   # UPDATE
-  
-  post("/modify_like/:path_id", { :controller => "likes", :action => "update" })
+  #post("/modify_like/:path_id", { :controller => "likes", :action => "update" })
   
   # DELETE
   get("/delete_like/:path_id", { :controller => "likes", :action => "destroy" })
@@ -27,11 +25,9 @@ Rails.application.routes.draw do
           
   # READ
   get("/follow_requests", { :controller => "follow_requests", :action => "index" })
-  
   get("/follow_requests/:path_id", { :controller => "follow_requests", :action => "show" })
   
   # UPDATE
-  
   post("/modify_follow_request/:path_id", { :controller => "follow_requests", :action => "update" })
   
   # DELETE
@@ -80,7 +76,6 @@ Rails.application.routes.draw do
   get("/user_sign_in", { :controller => "user_authentication", :action => "sign_in_form" })
   # AUTHENTICATE AND STORE COOKIE
   post("/user_verify_credentials", { :controller => "user_authentication", :action => "create_cookie" })
-  
   # SIGN OUT        
   get("/user_sign_out", { :controller => "user_authentication", :action => "destroy_cookies" })
              
@@ -93,17 +88,14 @@ Rails.application.routes.draw do
           
   # READ
   get("/photos", { :controller => "photos", :action => "index" })
-  
   get("/photos/:path_id", { :controller => "photos", :action => "show" })
   
   # UPDATE
-  
   post("/modify_photo/:path_id", { :controller => "photos", :action => "update" })
   
   # DELETE
   get("/delete_photo/:path_id", { :controller => "photos", :action => "destroy" })
 
   #------------------------------
-
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
