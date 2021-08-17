@@ -3,14 +3,14 @@
 # Table name: users
 #
 #  id                             :integer          not null, primary key
-#  comments_count                 :integer
+#  comments_count                 :integer          default(0)
 #  email                          :string
-#  likes_count                    :integer
-#  own_photos_count               :integer
+#  likes_count                    :integer          default(0)
+#  own_photos_count               :integer          default(0)
 #  password_digest                :string
 #  private                        :boolean
-#  received_follow_requests_count :integer
-#  sent_follow_requests_count     :integer
+#  received_follow_requests_count :integer          default(0)
+#  sent_follow_requests_count     :integer          default(0)
 #  username                       :string
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
