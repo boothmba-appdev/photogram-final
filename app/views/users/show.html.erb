@@ -26,7 +26,7 @@
 
   <dt>Followers 粉丝数</dt>
   <dd>
-    <div><%= @the_user.received_follow_requests.where({:status => "accepted"}).size %></div>
+    <div><%= @the_user.received_follow_requests.where({:status => "accepted"}).size.to_s %></div>
 
     <% if @current_user.sent_follow_requests.where({:recipient_id => @the_user.id}).where({:status => "accepted"}).empty? %>
     <div>
@@ -49,7 +49,7 @@
   </dd>
 
   <dt>Following 关注数</dt>
-  <dd><%= @the_user.sent_follow_requests.where({:status => "accepted"}).size %></dd>
+  <dd><%= @the_user.sent_follow_requests.where({:status => "accepted"}).size.to_s %></dd>
 </dl>
 
 <nav>
