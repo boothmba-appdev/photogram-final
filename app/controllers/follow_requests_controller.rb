@@ -21,13 +21,23 @@ class FollowRequestsController < ApplicationController
     the_follow_request = FollowRequest.new
     the_follow_request.sender_id = params.fetch("query_sender_id")
     the_follow_request.recipient_id = params.fetch("query_recipient_id")
-    the_follow_request.status = params.fetch("query_status")
+    if User.where({:id => the_follow_request.recipient_id}).at(0).private
+      the_follow_request.status = "pending"
+    else
+      the_follow_request.status = "accepted"
+    end
 
     if the_follow_request.valid?
       the_follow_request.save
-      redirect_to("/follow_requests", { :notice => "Follow request created successfully." })
+      if the_follow_request.status == "pending"
+        redirect_to("/users", { :notice => "Follow request sent! 关注请求已发送!" })
+      elsif the_follow_request.status == "accepted"
+        redirect_to("/users/#{User.where({:id => the_follow_request.recipient_id}).first.username}", { :notice => "Follow request created successfully! 已成功关注!" })
+      else
+        redirect_to("/users", { :alert => "Follow request rejected! 关注请求被拒绝!" })
+      end
     else
-      redirect_to("/follow_requests", { :notice => "Follow request failed to create successfully." })
+      redirect_to("/users", { :alert => "Already requested! 重复请求!" })
     end
   end
 
@@ -47,12 +57,37 @@ class FollowRequestsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy1
     the_id = params.fetch("path_id")
-    the_follow_request = FollowRequest.where({ :id => the_id }).at(0)
+    if @current_user
+      the_follow_request = FollowRequest.where({ :sender_id => @current_user.id }).where({ :id => the_id }).at(0)
+      user_name = User.where({:id => the_follow_request.recipient_id}).first.username
+      the_follow_request.destroy
+      redirect_to("/users/#{user_name}", { :notice => "Follow deleted! 已取关!"} )
+    else 
+      redirect_to("/user_sign_in", {:alert => "You have to sign in first. 请先登陆!"})
+    end
+  end
 
-    the_follow_request.destroy
+  def destroy2
+    the_id = params.fetch("path_id")
+    if @current_user
+      the_follow_request = FollowRequest.where({ :sender_id => @current_user.id }).where({ :id => the_id }).at(0)
+      the_follow_request.destroy
+      redirect_to("/users", { :notice => "Follow request deleted! 关注请求已取消!"} )
+    else 
+      redirect_to("/user_sign_in", {:alert => "You have to sign in first. 请先登陆!"})
+    end
+  end
 
-    redirect_to("/follow_requests", { :notice => "Follow request deleted successfully."} )
+  def destroy3
+    the_id = params.fetch("path_id")
+    if @current_user
+      the_follow_request = FollowRequest.where({ :sender_id => @current_user.id }).where({ :id => the_id }).at(0)
+      the_follow_request.destroy
+      redirect_to("/users/<%= User.where({:id => the_follow_request.recipient_id}).first.username %>", { :notice => "Follow deleted! 已取关!"} )
+    else 
+      redirect_to("/user_sign_in", {:alert => "You have to sign in first. 请先登陆!"})
+    end
   end
 end

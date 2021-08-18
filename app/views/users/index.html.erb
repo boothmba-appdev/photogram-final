@@ -39,16 +39,32 @@
       </td>
 
       <% if @current_user %>
-      <td>
-            <form action="/insert_follow_request" method="post">
-              <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
-              <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
-              <input type="hidden" name="query_status" value="<%= a_user.private %>">
-              <button>
-                Follow 关注
-              </button>
-            </form>
-      </td>
+        <% if @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).empty? %>
+        <td>
+              <form action="/insert_follow_request" method="post">
+                <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
+                <input type="hidden" name="query_sender_id" value="<%= @current_user.id %>">
+                <button>
+                  Follow 关注
+                </button>
+              </form>
+        </td>
+        <% elsif @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).at(0).status == "accepted" %>
+        <td>
+          <a href="/delete_follow_request/1/<%= @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).at(0).id %>">
+            Unfollow 取消关注
+          </a>
+        </td>
+        <% elsif @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).at(0).status == "rejected" %>
+        <td>
+            <p> </p>
+        </td>
+        <% elsif @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).at(0).status == "pending" %>
+        <td>
+            <p>Request sent! 请求已发送!<a href="/delete_follow_request/2/<%= @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).at(0).id %>">Cancel 取消</a></p>
+        </td>
+        <% else %>
+        <% end %>
       <% end %>
 
       <td>

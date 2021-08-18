@@ -21,7 +21,7 @@ class LikesController < ApplicationController
       the_like.save
       redirect_to("/photos/#{the_like.photo_id}", { :notice => "Like created successfully! 点赞成功!" })
     else
-      redirect_to("/photos/#{the_like.photo_id}", { :notice => "Like failed to create successfully! 点赞失败!" })
+      redirect_to("/photos/#{the_like.photo_id}", { :alert => "Like failed to create successfully! 点赞失败!" })
     end
   end
 

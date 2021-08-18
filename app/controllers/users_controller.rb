@@ -13,7 +13,13 @@ class UsersController < ApplicationController
       if @current_user.username == @the_user.username
         render({ :template => "users/self.html.erb" })
       elsif @the_user.private
-        redirect_to("/users", {:alert => "Private account not authorized to view! 隐私账户无权浏览!"})
+        if @the_user.received_follow_requests.where({:sender_id => @current_user.id}).empty?
+          redirect_to("/users", {:alert => "Private account not authorized to view! 隐私账户无权浏览!"})
+        elsif @the_user.received_follow_requests.where({:sender_id => @current_user.id}).at(0).status == "accept"
+          render({ :template => "users/show.html.erb" })
+        else
+          redirect_to("/users", {:alert => "Private account not authorized to view! 隐私账户无权浏览!"})
+        end
       else
         render({ :template => "users/show.html.erb" })
       end
