@@ -25,15 +25,34 @@
 
   <dt>Followers 粉丝数</dt>
   <dd>
-    <%= @the_user.received_follow_requests.where({:status => "accepted"}).size.to_s %>
+    <%= @the_user.received_follow_requests.where({:status => "accepted"}).count.to_s %>
 
-      <p>Pending follow requests 待添加请求</p>
-      <ul>
-      </ul>
+      <p>Pending follow requests 待添加请求 <%= @the_user.received_follow_requests.where({:status => "pending"}).size %></p>
+      <% if @the_user.received_follow_requests.where({:status => "pending"}).size > 0 %>
+      <ol>
+        <% @pending_requests.each do |a_request| %>
+        <li>
+        <p>User 用户： <%= a_request.sender.username %></p>
+          <form action="/modify_follow_request/<%= a_request.id %>" method="post">
+            <input name="query_status" value="accepted" type="hidden">
+            <button>
+              Accept 接受
+            </button>
+          </form>
+          <form action="/modify_follow_request/<%= a_request.id %>" method="post">
+            <input name="query_status" value="rejected" type="hidden">
+            <button>
+              Reject 拒绝
+            </button>
+          </form>
+        </li>
+        <% end %>
+      </ol>
+      <% end %>
   </dd>
 
   <dt>Following 关注数</dt>
-  <dd><%= @the_user.sent_follow_requests.where({:status => "accepted"}).size.to_s %></dd>
+  <dd><%= @the_user.sent_follow_requests.where({:status => "accepted"}).count.to_s %></dd>
 </dl>
 
 <dt>Edit user 更改用户</dt>

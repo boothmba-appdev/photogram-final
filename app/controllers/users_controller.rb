@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     @own_photos = @the_user.own_photos
     if @current_user
       if @current_user.username == @the_user.username
+        @pending_requests = @the_user.received_follow_requests.where({:status => "pending"})
         render({ :template => "users/self.html.erb" })
       elsif @the_user.private
         if @the_user.received_follow_requests.where({:sender_id => @current_user.id}).empty?
@@ -59,8 +60,15 @@ class UsersController < ApplicationController
     if @the_user.sent_follow_requests.where({:status => "accepted"}).empty?
       @show_photos = Array.new
     else
-      @show_photos = @the_user.sent_follow_requests.where({:status => "accepted"}).recipient.own_photos
+      @show_photos = Array.new
+      recipients = @the_user.sent_follow_requests.where({:status => "accepted"})
+      recipients.each do |a_recipient|
+        @show_photos.append(a_recipient.recipient.own_photos)
+        #@show_photos = @the_user.feed # cannot filter by "accepted" status
+      end
+      @show_photos = @show_photos.flatten
     end
+
     if @current_user
       if @current_user.username == @the_user.username
         render({ :template => "users/feed_photos.html.erb" })
@@ -84,11 +92,19 @@ class UsersController < ApplicationController
     user_name = params.fetch("path_id")
     matching_users = User.where({ :username => user_name })
     @the_user = matching_users.at(0)
+
     if @the_user.sent_follow_requests.where({:status => "accepted"}).empty?
       @show_photos = Array.new
     else
-      @show_photos = @the_user.sent_follow_requests.where({:status => "accepted"}).recipient.own_photos
+      @show_photos = Array.new
+      recipients = @the_user.sent_follow_requests.where({:status => "accepted"})
+      recipients.each do |a_recipient|
+        @show_photos.append(a_recipient.recipient.liked_photos)
+        #@show_photos = @the_user.activity # cannot filter by "accepted" status
+      end
+      @show_photos = @show_photos.flatten
     end
+
     if @current_user
       if @current_user.username == @the_user.username
         render({ :template => "users/discover_photos.html.erb" })
@@ -107,4 +123,5 @@ class UsersController < ApplicationController
       redirect_to("/user_sign_in", {:alert => "Please sign in first! 请先登陆!"})
     end
   end
+
 end

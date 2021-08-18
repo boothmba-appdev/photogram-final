@@ -43,17 +43,14 @@ class FollowRequestsController < ApplicationController
 
   def update
     the_id = params.fetch("path_id")
-    the_follow_request = FollowRequest.where({ :id => the_id }).at(0)
+    the_follow_request = FollowRequest.where({ :id => the_id }).where({:recipient_id => @current_user.id }).at(0)
 
-    the_follow_request.sender_id = params.fetch("query_sender_id")
-    the_follow_request.recipient_id = params.fetch("query_recipient_id")
     the_follow_request.status = params.fetch("query_status")
-
     if the_follow_request.valid?
       the_follow_request.save
-      redirect_to("/follow_requests/#{the_follow_request.id}", { :notice => "Follow request updated successfully."} )
+      redirect_to("/users/#{@current_user.username}", { :notice => "Follow request updated successfully! 关注请求更新成功!"} )
     else
-      redirect_to("/follow_requests/#{the_follow_request.id}", { :alert => "Follow request failed to update successfully." })
+      redirect_to("/users/#{@current_user.username}", { :alert => "Follow request failed to update successfully! 关注请求更新失败!" })
     end
   end
 

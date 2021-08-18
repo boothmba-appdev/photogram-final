@@ -40,11 +40,6 @@
 
       <% if @current_user %>
         <% if @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).empty? %>
-          <% if @current_user.id == a_user.id %>
-          <td>
-            <p> </p>
-          </td>
-          <% else %>
           <td>
                 <form action="/insert_follow_request" method="post">
                   <input type="hidden" name="query_recipient_id" value="<%= a_user.id %>">
@@ -54,7 +49,6 @@
                   </button>
                 </form>
           </td>
-          <% end %>
         <% elsif @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).at(0).status == "accepted" %>
         <td>
           <a href="/delete_follow_request/1/<%= @current_user.sent_follow_requests.where({:recipient_id => a_user.id}).at(0).id %>">
