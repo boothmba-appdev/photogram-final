@@ -24,16 +24,16 @@ Rails.application.routes.draw do
   post("/insert_follow_request", { :controller => "follow_requests", :action => "create" })
           
   # READ
-  get("/follow_requests", { :controller => "follow_requests", :action => "index" })
-  get("/follow_requests/:path_id", { :controller => "follow_requests", :action => "show" })
+  #get("/follow_requests", { :controller => "follow_requests", :action => "index" })
+  #get("/follow_requests/:path_id", { :controller => "follow_requests", :action => "show" })
   
   # UPDATE
-  post("/modify_follow_request/:path_id", { :controller => "follow_requests", :action => "update" })
+  #post("/modify_follow_request/:path_id", { :controller => "follow_requests", :action => "update" })
   
   # DELETE
   get("/delete_follow_request/1/:path_id", { :controller => "follow_requests", :action => "destroy1" })
   get("/delete_follow_request/2/:path_id", { :controller => "follow_requests", :action => "destroy2" })
-  get("/delete_follow_request/3/:path_id", { :controller => "follow_requests", :action => "destroy3" })
+  #get("/delete_follow_request/3/:path_id", { :controller => "follow_requests", :action => "destroy3" })
 
   #------------------------------
   
@@ -70,7 +70,16 @@ Rails.application.routes.draw do
   post("/modify_user/:path_id", { :controller => "user_authentication", :action => "update2" })
   
   # DELETE RECORD
-  get("/cancel_user_account", { :controller => "user_authentication", :action => "destroy" })
+  #get("/cancel_user_account", { :controller => "user_authentication", :action => "destroy" })
+
+  # LIKED PHOTOS
+  get("/users/:path_id/liked_photos", { :controller => "users", :action => "liked" })
+
+  # FEED
+  get("/users/:path_id/feed", { :controller => "users", :action => "feed" })
+
+  # DISCOVER
+  get("/users/:path_id/discover", { :controller => "users", :action => "discover" })
 
   # ------------------------------
 

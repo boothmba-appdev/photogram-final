@@ -25,7 +25,7 @@
 
   <dt>Followers 粉丝数</dt>
   <dd>
-    <%= @the_user.received_follow_requests_count %>
+    <%= @the_user.received_follow_requests.where({:status => "accepted"}).size %>
 
       <p>Pending follow requests 待添加请求</p>
       <ul>
@@ -33,7 +33,7 @@
   </dd>
 
   <dt>Following 关注数</dt>
-  <dd><%= @the_user.sent_follow_requests_count %></dd>
+  <dd><%= @the_user.sent_follow_requests.where({:status => "accepted"}).size %></dd>
 </dl>
 
 <dt>Edit user 更改用户</dt>

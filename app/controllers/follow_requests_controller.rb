@@ -64,6 +64,7 @@ class FollowRequestsController < ApplicationController
       user_name = User.where({:id => the_follow_request.recipient_id}).first.username
       the_follow_request.destroy
       redirect_to("/users/#{user_name}", { :notice => "Follow deleted! 已取关!"} )
+      #redirect_to("/users", { :notice => "Follow deleted! 已取关!"} )
     else 
       redirect_to("/user_sign_in", {:alert => "You have to sign in first. 请先登陆!"})
     end
@@ -80,14 +81,4 @@ class FollowRequestsController < ApplicationController
     end
   end
 
-  def destroy3
-    the_id = params.fetch("path_id")
-    if @current_user
-      the_follow_request = FollowRequest.where({ :sender_id => @current_user.id }).where({ :id => the_id }).at(0)
-      the_follow_request.destroy
-      redirect_to("/users/<%= User.where({:id => the_follow_request.recipient_id}).first.username %>", { :notice => "Follow deleted! 已取关!"} )
-    else 
-      redirect_to("/user_sign_in", {:alert => "You have to sign in first. 请先登陆!"})
-    end
-  end
 end

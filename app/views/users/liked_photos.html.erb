@@ -15,7 +15,7 @@
   <body>
     <h1><%= @the_user.username %></h1>
     <div>
-      <a href="/users">
+      <a href="/users/<%= @the_user.username %>">
         Go back 返回
       </a>
     </div>
@@ -27,29 +27,11 @@
   <dt>Followers 粉丝数</dt>
   <dd>
     <div><%= @the_user.received_follow_requests.where({:status => "accepted"}).size %></div>
-
-    <% if @current_user.sent_follow_requests.where({:recipient_id => @the_user.id}).where({:status => "accepted"}).empty? %>
-    <div>
-      <form action="/insert_follow_request" method="post">
-        <input type="hidden" name="query_recipient_id" value="<%=@the_user.id%>">
-        <input type="hidden" name="query_sender_id" value="<%=@current_user.id%>">
-        <button>
-          Follow
-        </button>
-      </form>
-    </div>
-    <% else %>
-    <div>
-      <a href="/delete_follow_request/1/<%= @current_user.sent_follow_requests.where({:recipient_id => @the_user.id}).at(0).id %>">
-            Unfollow 取消关注
-      </a>
-    </div>
-    <% end %>
-
   </dd>
-
   <dt>Following 关注数</dt>
-  <dd><%= @the_user.sent_follow_requests.where({:status => "accepted"}).size %></dd>
+  <dd>
+    <%= @the_user.sent_follow_requests.where({:status => "accepted"}).size %>
+  </dd>
 </dl>
 
 <nav>
@@ -69,7 +51,7 @@
   </ul>
 </nav>
 
-<h2>Own photos 已发布照片 (<%= @the_user.own_photos_count %>)</h2>
+<h2>Liked photos 点赞照片 (<%= @the_user.liked_photos.size %>)</h2>
 
 <table border="2">
   <tr>
@@ -95,7 +77,7 @@
 
     <th></th>
   </tr>
-  <% @own_photos.each do |a_photo| %>
+  <% @show_photos.each do |a_photo| %>
     <tr>
       <td>
         <img src="<%=a_photo.image%>" class="img-responsive" width="500" height="380">

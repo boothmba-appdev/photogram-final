@@ -18,7 +18,19 @@ class PhotosController < ApplicationController
     @the_photo = matching_photos.at(0)
     if @current_user
       if @the_photo.owner.private
-        redirect_to("/photos", {:alert => "Not authorized to view! 无权限访问!"})
+        if @the_photo.owner.id == @current_user.id
+          render({ :template => "photos/show.html.erb" })
+        else
+          if @the_photo.owner.received_follow_requests.where({:sender_id => @current_user.id}).empty?
+            redirect_to("/photos", {:alert => "Not authorized to view! 无权限访问!"})
+          else
+            if @the_photo.owner.received_follow_requests.where({:sender_id => @current_user.id}).at(0).status == "accepted"
+              render({ :template => "photos/show.html.erb" })
+            else
+              redirect_to("/photos", {:alert => "Not authorized to view! 无权限访问!"})
+            end
+          end
+        end
       else
         render({ :template => "photos/show.html.erb" })
       end
